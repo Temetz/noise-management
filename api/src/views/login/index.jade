@@ -7,12 +7,17 @@ block content
   div
     form(role='form' class='form-horizontal' id="configureform")
       div(class='form-group')
-        label(class='control-label col-sm-2') Session
+        label(class='control-label col-sm-2') Session ident
         div(class='col-sm-10')
-          input(type='text' name='session')
+          input(type='text' name='sessionident')
 
       div(class='form-group')
-        label(class='control-label col-sm-2') Password
+        label(class='control-label col-sm-2') Session password
+        div(class='col-sm-10')
+          input(type='text' name='sessionpassword')
+
+      div(class='form-group')
+        label(class='control-label col-sm-2') APIKEY
         div(class='col-sm-10')
           input(type='text' name='apikey')
 

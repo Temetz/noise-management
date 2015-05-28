@@ -51,7 +51,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/gui/welcome', function (req, res) {
-    res.render('welcome', {host:req.headers['host'], manage: req.cookies.session});
+    res.render('welcome', {host:req.headers['host'], manage: req.cookies.sessionident});
 });
 
 app.get('/gui/configure', function (req, res) {
@@ -74,19 +74,22 @@ app.post('/login', function (req, res) {
     if(req.body.apikey == process.env.APIKEY)
     {
         res.cookie('apikey', req.body.apikey);
-        res.cookie('session', req.body.session);
+        res.cookie('sessionident', req.body.sessionident);
+	res.cookie('sessionpassword', req.body.sessionpassword);
         res.json("Login success");
         return;
     }
     res.clearCookie('apikey', '');
-    res.clearCookie('session', '');
+    res.clearCookie('sessionident', '');
+    res.clearCookie('sessionpassword', '');
     res.status(401);
     res.json("Invalid login");
 });
 
 app.post('/logout', function (req, res) {
     res.clearCookie('apikey', '');
-    res.clearCookie('session', '');
+    res.clearCookie('sessionident', '');
+    res.clearCookie('sessionpassword', '');
     res.json("You have logged out");
 });
 
