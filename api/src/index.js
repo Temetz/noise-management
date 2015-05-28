@@ -5,7 +5,7 @@ var bodyParser      = require('body-parser');
 var cookieParser    = require('cookie-parser');
 
 // Constants
-var PORT = 8888;
+var PORT = 8000;
 
 // App
 var app = express();
@@ -64,6 +64,10 @@ app.get('/gui/target', function (req, res) {
 
 app.get('/gui/login', function (req, res) {
     res.render('login');
+});
+
+app.get('/gui/logout', function (req, res) {
+    res.render('logout');
 });
 
 app.post('/login', function (req, res) {

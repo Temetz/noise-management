@@ -1,11 +1,13 @@
 function ajaxRequest(method, url, formid){
-      var session = getCookie("session") + '.noise.n4sjamk.org';
-      var ajaxTo = session + url;
+      var session = getCookie("session") + '.noise.n4sjamk.org:5300';
+      var ajaxTo = 'http://'+ session + url;
       console.log(ajaxTo);
       console.log(url);
       if(url == '/login' || url == '/logout')
       {
-        ajaxTo = 'management.n4sjamk.org' + url
+	console.log('gets');
+        ajaxTo = 'http://management.noise.n4sjamk.org' + url
+	console.log(ajaxTo);
       }
       $.ajax({
       type: method,
