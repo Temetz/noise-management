@@ -1,11 +1,11 @@
+
 var express         = require('express');
-var shell           = require('shelljs');
 var path            = require("path");
 var bodyParser      = require('body-parser');
 var cookieParser    = require('cookie-parser');
 
 // Constants
-var PORT = 5300;
+var PORT = 8888;
 
 // App
 var app = express();
@@ -46,50 +46,12 @@ function checkUser(req, res, next) {
     }
 }
 
-app.put('/limit', function (req, res) {
-    var command = 'sudo tc qdisc change dev lo root netem ';
-    command += 'loss ' + req.body.loss + '% ';
-    command += 'delay ' + req.body.delay + 'ms ';
-    command += req.body.delayvariance + 'ms ';
-    if(req.body.jitter === 1){
-        command += 'distribution ' + req.body.distribution;
-
-    }
-    shell.exec(command, {silent:true});
-    var status = shell.exec('sudo tc qdisc show', {silent:true}).output;
-    res.json(status);
-});
-
-app.put('/target', function (req, res) {
-    var command = "sudo sed -i '33s/.*/server target " + req.body.httptarget + "/' /etc/haproxy/haproxy.cfg";
-    shell.exec(command, {silent:true});
-    var status = shell.exec('sudo service haproxy restart', {silent:true}).output;
-    res.json(status);
-});
-
-app.post('/login', function (req, res) {
-    if(req.body.apikey == process.env.APIKEY)
-    {
-        res.cookie('apikey', req.body.apikey);
-        res.json("Login success");
-        return;
-    }
-    res.clearCookie('apikey', '')
-    res.status(401);
-    res.json("Invalid login");
-});
-
-app.post('/logout', function (req, res) {
-    res.clearCookie('apikey', '')
-    res.json("You have logged out");
-});
-
 app.get('/', function (req, res) {
     res.redirect('/gui/welcome');
 });
 
 app.get('/gui/welcome', function (req, res) {
-    res.render('welcome', {host:req.headers['host']});
+    res.render('welcome', {host:req.headers['host'], manage: req.cookies.session});
 });
 
 app.get('/gui/configure', function (req, res) {
@@ -100,12 +62,28 @@ app.get('/gui/target', function (req, res) {
     res.render('target');
 });
 
-app.get('/gui/logout', function (req, res) {
-        res.render('logout');
+app.get('/gui/login', function (req, res) {
+    res.render('login');
 });
 
-app.get('/gui/login', function (req, res) {
-        res.render('login');
+app.post('/login', function (req, res) {
+    if(req.body.apikey == process.env.APIKEY)
+    {
+        res.cookie('apikey', req.body.apikey);
+        res.cookie('session', req.body.session);
+        res.json("Login success");
+        return;
+    }
+    res.clearCookie('apikey', '');
+    res.clearCookie('session', '');
+    res.status(401);
+    res.json("Invalid login");
+});
+
+app.post('/logout', function (req, res) {
+    res.clearCookie('apikey', '');
+    res.clearCookie('session', '');
+    res.json("You have logged out");
 });
 
 app.listen(PORT);

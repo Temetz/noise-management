@@ -1,8 +1,16 @@
 function ajaxRequest(method, url, formid){
+      var session = getCookie("session") + '.noise.n4sjamk.org';
+      var ajaxTo = session + url;
+      console.log(ajaxTo);
+      console.log(url);
+      if(url == '/login' || url == '/logout')
+      {
+        ajaxTo = 'management.n4sjamk.org' + url
+      }
       $.ajax({
       type: method,
       contentType: "application/json",
-      url: url,
+      url: ajaxTo,
       data: JSON.stringify(getFormData($("#"+formid))),
       headers: {'Authorization': getCookie("apikey")},
       dataType: "json",
