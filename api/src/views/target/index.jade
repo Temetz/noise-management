@@ -1,0 +1,17 @@
+
+extends ../layout
+
+block content
+
+  h1 Set target
+
+  div
+    form(role='form' method='PUT' class='form-horizontal' id="configureform")
+      div(class='form-group')
+        label(class='control-label col-sm-2') Target
+        div(class='col-sm-10')
+          input(type='text' name='httptarget')    
+
+      div(class='form-group')
+        div(class='col-sm-10')
+          input(class='btn btn-default' type='button' onclick='ajaxRequest("PUT", "/target", "configureform")' value='Set')
