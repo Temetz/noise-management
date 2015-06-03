@@ -10,6 +10,6 @@ RUN ln -s /usr/bin/nodejs /usr/bin/node
 COPY /api /api
 RUN cd /api/src;npm install
 
-EXPOSE 80
+EXPOSE 8002
 
 CMD node /api/src/index.js

@@ -1,18 +1,8 @@
 function ajaxRequest(method, url, formid){
-      var session = getCookie("sessionident") + '.noise.n4sjamk.org:5300';
-      var ajaxTo = 'http://'+ session + url;
-      console.log(ajaxTo);
-      console.log(url);
-      if(url == '/login' || url == '/logout')
-      {
-	console.log('gets');
-        ajaxTo = 'http://management.noise.n4sjamk.org' + url
-	console.log(ajaxTo);
-      }
       $.ajax({
       type: method,
       contentType: "application/json",
-      url: ajaxTo,
+      url: 'http://noise-api:5300' + url,
       data: JSON.stringify(getFormData($("#"+formid))),
       headers: {'Authorization': getCookie("sessionpassword")},
       dataType: "json",
