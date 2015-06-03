@@ -21,13 +21,7 @@ body
           li
             a(href='/gui/configure') Configure
           li
-            a(href='/gui/target') Set target
-          if state.authenticated
-            li(id='login_li')
-              a(href='/gui/logout') Logout
-          else
-            li(id='login_li')
-              a(href='/gui/login') Login
+            a(href='/gui/target') Set targets
     div(class='well')
       div(role='alert' id='status' style='display: none')
       block content
